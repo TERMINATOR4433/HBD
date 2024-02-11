@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Happy Birthday Teacher</title>
+
+    <style>
+
+        body {
+
+            background: linear-gradient(to right, #E0C3FC, #8EC5FC);
+
+            color: white;
+
+            font-family: cursive, serif;
+
+        }
+
+        #starfield {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+        }
+
+        #starfield canvas {
+
+            display: block;
+
+        }
+
+        #content {
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            text-align: center;
+
+        }
+      img{
+        border-radius: 50px;
+        height: auto;
+        max-width: 100%;
+        
+
+}
+       
+          
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id="starfield">
+
+    </div>
+
+    <div id="content">
+      <img src="https://i.imghippo.com/files/Okcpf1707511731.jpg">
+
+        <h1>Happy Birthday Annu Miss!</h1>
+
+        <p>Wishing you a wonderful day filled with love, laughter, and learning.</p>
+
+    </div>
+
+    <script>
+   const starfield = document.getElementById("starfield");
+const canvas = document.createElement("canvas");
+const ctx = canvas.getContext("2d");
+
+starfield.appendChild(canvas);
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const particleArray = [];
+const particleCount = 600;
+const trailArray = [];
+
+for (let i = 0; i < particleCount; i++) {
+  const particle = {
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 1.5 + 0.5,
+    speed: Math.random() * 0.4 + 0.1,
+    angle: Math.random() * 2 * Math.PI
+  };
+  particleArray.push(particle);
+  trailArray.push({ x: particle.x, y: particle.y }); // Add the initial position to the trail array
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particleArray.forEach((particle, index) => {
+    particle.x += Math.cos(particle.angle) * particle.speed;
+    particle.y += Math.sin(particle.angle) * particle.speed;
+
+    if (particle.x < 0 || particle.x > canvas.width || particle.y < 0 || particle.y > canvas.height) {
+      particle.x = Math.random() * canvas.width;
+      particle.y = Math.random() * canvas.height;
+      particle.angle = Math.random() * 2 * Math.PI;
+    }
+
+    ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
+
+    // Draw a line between the current position and the previous position
+    ctx.beginPath();
+    ctx.moveTo(trailArray[index].x, trailArray[index].y);
+    ctx.lineTo(particle.x, particle.y);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+    ctx.stroke();
+
+    // Update the previous position
+    trailArray[index].x = particle.x;
+    trailArray[index].y = particle.y;
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+  </script>
